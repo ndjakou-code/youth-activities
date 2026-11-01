@@ -404,15 +404,16 @@ function renderCalendar(){
     return true;
   });
   if(state.when==="past")list.reverse();
+  const nUp=[...state.activities.values()].filter(a=>a.date>=today).length,nPast=state.activities.size-nUp;
   let h=`<div class="filters">
     <select id="fGroup" aria-label="Group">${groupOptions(state.group,"All groups")}</select>
-    <select id="fWhen" aria-label="When"><option value="upcoming"${state.when==="upcoming"?" selected":""}>Upcoming</option><option value="past"${state.when==="past"?" selected":""}>Past</option><option value="all"${state.when==="all"?" selected":""}>All dates</option></select>
+    <select id="fWhen" aria-label="When"><option value="upcoming"${state.when==="upcoming"?" selected":""}>Upcoming (${nUp})</option><option value="past"${state.when==="past"?" selected":""}>Past (${nPast})</option><option value="all"${state.when==="all"?" selected":""}>All dates (${nUp+nPast})</option></select>
     ${areaChips(state.areas,"filter-area")}
   </div>`;
   if(!state.activities.size){
     return h+`<div class="panel empty"><h2>No activities yet</h2><p>Add your first activity, or pick one from the ideas bank.</p><button class="btn primary" type="button" data-act="new">+ New activity</button> <button class="btn" type="button" data-act="view" data-view="ideas">Browse ideas</button></div>`;
   }
-  if(!list.length)return h+`<div class="panel empty"><p>${state.when==="upcoming"?"Nothing coming up for this filter.":"Nothing matches this filter."}</p></div>`;
+  if(!list.length)return h+`<div class="panel empty"><p>${state.when==="upcoming"?"Nothing coming up yet.":"Nothing matches this filter."}</p>${state.when==="upcoming"&&nPast?`<button class="btn" type="button" data-act="show-past">Show past activities (${nPast})</button> `:""}<button class="btn primary" type="button" data-act="new">+ New activity</button></div>`;
   let month="";
   for(const[id,a]of list){
     const d=dateObj(a.date);
@@ -529,6 +530,7 @@ document.addEventListener("click",e=>{
   const act=b.dataset.act;
   switch(act){
     case"view":state.view=b.dataset.view;render();return;
+    case"show-past":state.when="past";render();return;
     case"new":openEditor(null);return;
     case"edit":openEditor(b.dataset.id);return;
     case"close-edit":closeEditor();return;
