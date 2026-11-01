@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="robots" content="noindex, nofollow">
+<title>Youth Activities</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --surface-2:#E8ECE7; --ink:#1C2430; --ink-2:#465263; --muted:#76808E;
+  --line:#D7DDD6; --line-2:#C2CAC1;
+  --accent:#23715F; --accent-ink:#FFFFFF; --accent-soft:#DCEDE7;
+  --warn:#9A5B0B; --warn-soft:#FBEFD9; --bad:#A33A2F; --bad-soft:#F8E2DF; --ok:#2E6A43; --ok-soft:#DFF0E4;
+  /* the four areas: categorical slots 1-4 (validated) */
+  --a-spiritual:#2a78d6; --a-social:#eb6834; --a-physical:#1baf7a; --a-intellectual:#eda100;
+  --shadow:0 1px 2px rgba(20,32,40,.06),0 4px 14px rgba(20,32,40,.06);
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --sans:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#10161A; --surface:#171E24; --surface-2:#1F2830; --ink:#E6ECEF; --ink-2:#B2BDC6; --muted:#83909C;
+    --line:#2A3540; --line-2:#3A4754;
+    --accent:#6FC4AC; --accent-ink:#0E1A16; --accent-soft:#17332B;
+    --warn:#E7B460; --warn-soft:#352812; --bad:#EC8E82; --bad-soft:#3A1E1B; --ok:#80C998; --ok-soft:#18311F;
+    --a-spiritual:#3987e5; --a-social:#d95926; --a-physical:#199e70; --a-intellectual:#c98500;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#10161A; --surface:#171E24; --surface-2:#1F2830; --ink:#E6ECEF; --ink-2:#B2BDC6; --muted:#83909C;
+  --line:#2A3540; --line-2:#3A4754;
+  --accent:#6FC4AC; --accent-ink:#0E1A16; --accent-soft:#17332B;
+  --warn:#E7B460; --warn-soft:#352812; --bad:#EC8E82; --bad-soft:#3A1E1B; --ok:#80C998; --ok-soft:#18311F;
+  --a-spiritual:#3987e5; --a-social:#d95926; --a-physical:#199e70; --a-intellectual:#c98500;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans);padding:0 16px 96px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{margin:0;text-wrap:balance}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);margin:0 -16px;padding:12px 16px 10px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.brand h1{font:700 23px/1.1 var(--display);letter-spacing:-.01em}
+.sync{font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.sync::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.sync.live::before{background:var(--ok)}
+.tabs{display:inline-flex;border:1px solid var(--line-2);border-radius:10px;overflow:hidden;background:var(--surface)}
+.tabs button{border:0;background:none;padding:7px 14px;font-weight:600;font-size:14px;color:var(--ink-2)}
+.tabs button+button{border-left:1px solid var(--line)}
+.tabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.topright{margin-left:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:7px 13px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08);color:var(--accent-ink)}
+.btn.danger{color:var(--bad)}
+.btn.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
+.linkbtn{border:0;background:none;padding:0;color:var(--accent);font-weight:600;font-size:13px;text-decoration:underline;text-underline-offset:2px}
+@media (max-width:640px){.brand{width:100%}.tabs{width:100%;order:3}.tabs button{flex:1;padding:8px 6px}.topright{margin-left:0;width:100%;order:2}}
+
+main{max-width:980px;margin:0 auto;padding-top:16px;display:flex;flex-direction:column;gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.muted{color:var(--muted);font-size:13.5px;margin:0}
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filters select,.field select,.field input,.field textarea{border:1px solid var(--line-2);border-radius:8px;background:var(--surface);padding:7px 9px}
+.chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:4px 11px 4px 9px;font-size:13px;font-weight:600;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+.chip .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.chip[aria-pressed="true"]{border-color:var(--ink-2);background:var(--surface-2);color:var(--ink)}
+.dot.spiritual{background:var(--a-spiritual)}.dot.social{background:var(--a-social)}.dot.physical{background:var(--a-physical)}.dot.intellectual{background:var(--a-intellectual)}
+
+/* calendar */
+.month h2{font:700 19px var(--display);margin:6px 0 8px}
+.cards{display:flex;flex-direction:column;gap:10px}
+.card{display:grid;grid-template-columns:62px minmax(0,1fr) auto;gap:12px;align-items:start;padding:12px 14px;cursor:pointer;text-align:left;width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow)}
+.card:hover{border-color:var(--accent)}
+.card.cancelled{opacity:.6}
+.when{text-align:center;border-radius:10px;background:var(--surface-2);padding:6px 4px}
+.when .d{font:700 24px/1 var(--display)}
+.when .w{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:3px}
+.ctitle{font-weight:700;font-size:16px;margin:0 0 3px}
+.cmeta{font-size:13px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:4px 12px}
+.ctags{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.tag{font-size:12px;font-weight:600;border-radius:999px;padding:2px 9px;background:var(--surface-2);color:var(--ink-2);display:inline-flex;align-items:center;gap:5px}
+.cside{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.status{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.st-idea{background:var(--surface-2);color:var(--ink-2)}
+.st-planned{background:var(--accent-soft);color:var(--accent)}
+.st-confirmed{background:var(--ok-soft);color:var(--ok)}
+.st-done{background:var(--surface-2);color:var(--muted)}
+.st-cancelled{background:var(--bad-soft);color:var(--bad)}
+.prog{font-size:12px;color:var(--muted);white-space:nowrap}
+.prog.todo{color:var(--warn);font-weight:600}
+.empty{padding:28px;text-align:center}
+.empty h2{font:700 20px var(--display);margin-bottom:6px}
+.empty p{max-width:52ch;margin:0 auto 14px;color:var(--ink-2)}
+@media (max-width:560px){.card{grid-template-columns:52px minmax(0,1fr)}.cside{grid-column:2;flex-direction:row;align-items:center;justify-content:flex-start}}
+
+/* balance */
+.balance{overflow-x:auto}
+.balance table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.balance th,.balance td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.balance th:first-child,.balance td:first-child{text-align:left}
+.balance thead th{font-size:12px;font-weight:700;color:var(--ink-2)}
+.balance thead th .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.balance td.zero{color:var(--bad);font-weight:700}
+.balance tr.total td{font-weight:700;border-bottom:0}
+.bar{display:flex;gap:2px;height:12px;min-width:140px;width:100%;border-radius:4px;overflow:hidden;background:var(--surface-2)}
+.bar span{display:block;height:100%}
+.bar .spiritual{background:var(--a-spiritual)}.bar .social{background:var(--a-social)}.bar .physical{background:var(--a-physical)}.bar .intellectual{background:var(--a-intellectual)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.balhead{padding:14px 16px 4px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.gaps{padding:4px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.note{font-size:13.5px;color:var(--ink-2);padding:7px 10px;border-radius:8px;background:var(--warn-soft)}
+
+/* ideas */
+.ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.idea{padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.idea h3{font-size:15.5px}
+.idea p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.idea .row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px}
+.addidea{padding:14px;display:flex;flex-direction:column;gap:10px}
+
+/* editor & windows */
+.modal{position:fixed;inset:0;z-index:150;background:rgba(10,15,20,.5);display:flex;justify-content:center;align-items:flex-start;padding:24px 16px;overflow:auto}
+.modal-card{width:100%;max-width:640px}
+.panel-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:14px 16px 8px}
+.panel-h h2{font:700 20px var(--display)}
+.mini{border:0;background:none;color:var(--muted);font-size:13px;padding:2px 6px;border-radius:5px}
+.mini:hover{background:var(--line);color:var(--ink)}
+.form{padding:4px 16px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label,.field .lbl{font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.field .hint{font-size:12px;color:var(--muted)}
+.field textarea{min-height:70px;resize:vertical}
+.areas{display:flex;flex-wrap:wrap;gap:6px}
+.checks{display:flex;flex-direction:column;gap:6px}
+.checks label{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:500;color:var(--ink)}
+.checks .x{border:0;background:none;color:var(--muted);margin-left:auto;font-size:16px}
+.addcheck{display:flex;gap:6px}
+.addcheck input{flex:1;min-width:0}
+.formbtns{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.formbtns .btn.danger{margin-right:auto}
+@media (max-width:560px){.form{grid-template-columns:1fr}}
+
+/* landing */
+.gate{position:fixed;inset:0;z-index:200;background:var(--bg);overflow:auto;padding:24px 16px;display:flex;justify-content:center;align-items:flex-start}
+.gate-wrap{width:100%;max-width:360px;display:flex;flex-direction:column;gap:14px;margin-block:auto}
+.gate-title{font:700 30px var(--display);text-align:center}
+.gate-card{padding:22px;display:flex;flex-direction:column;gap:11px;text-align:center}
+.gate-card h2{font:700 20px var(--display)}
+.gate-card p{margin:0;color:var(--ink-2);font-size:14px}
+.gate-card input:not(.linkout){font-size:21px;text-align:center;letter-spacing:.25em;padding:9px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg)}
+.gate-card input.codein{text-transform:uppercase}
+.gate-card .btn{padding:10px;font-size:15px}
+.err{color:var(--bad);min-height:1.2em;font-size:13px;margin:0}
+.linkout{width:100%;min-width:0;flex:1;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);padding:8px;font-size:13px}
+.inrow{display:flex;gap:6px}
+.inrow input{flex:1;min-width:0;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);padding:8px}
+.settings{padding:4px 16px 16px;display:flex;flex-direction:column;gap:16px}
+.settings textarea{width:100%;min-height:120px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);padding:8px}
+.toast{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:300;background:var(--surface);border:1px solid var(--line-2);border-left:4px solid var(--accent);border-radius:8px;padding:10px 14px;box-shadow:var(--shadow);max-width:min(380px,calc(100% - 32px))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><h1>Youth Activities</h1><span class="sync" id="sync">Connecting…</span></div>
+  <div class="tabs" role="group" aria-label="View">
+    <button type="button" data-view="calendar" aria-pressed="true">Calendar</button>
+    <button type="button" data-view="balance" aria-pressed="false">Balance</button>
+    <button type="button" data-view="ideas" aria-pressed="false">Ideas</button>
+  </div>
+  <div class="topright">
+    <button class="btn primary" type="button" data-act="new">+ New activity</button>
+    <button class="linkbtn" type="button" data-act="settings">Ward settings</button>
+  </div>
+</header>
+
+<main id="main"><div class="panel empty"><p>Loading…</p></div></main>
+
+<!-- activity editor -->
+<div class="modal" id="editModal" hidden>
+  <form class="panel modal-card" id="editForm" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <div class="panel-h"><h2 id="editTitle">New activity</h2><button class="mini" type="button" data-act="close-edit">Close</button></div>
+    <div class="form" id="editBody"></div>
+  </form>
+</div>
+
+<!-- ward settings -->
+<div class="modal" id="setModal" hidden>
+  <div class="panel modal-card" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="panel-h"><h2 id="setTitle">Ward settings</h2><button class="mini" type="button" data-act="close-settings">Close</button></div>
+    <div class="settings">
+      <div>
+        <h3 class="eyebrow">Your ward link</h3>
+        <p class="muted">Share this link and the PIN with leaders, the bishopric and youth presidencies.</p>
+        <div class="inrow"><input id="wardLink" class="linkout" readonly aria-label="Your ward link"><button class="btn" type="button" data-act="copy-link">Copy</button></div>
+      </div>
+      <div>
+        <h3 class="eyebrow">Groups</h3>
+        <p class="muted">One per line, as you want them to appear (classes, quorums, combined).</p>
+        <textarea id="groupsText" aria-label="Groups"></textarea>
+        <div class="formbtns" style="margin-top:8px"><button class="btn" type="button" data-act="save-groups">Save groups</button></div>
+      </div>
+      <form id="pinForm">
+        <h3 class="eyebrow">Change PIN</h3>
+        <p class="muted">Everyone will need the new PIN the next time they open the planner.</p>
+        <div class="inrow"><input id="newPin" type="password" inputmode="numeric" autocomplete="off" placeholder="New PIN" aria-label="New PIN"><input id="newPin2" type="password" inputmode="numeric" autocomplete="off" placeholder="Again" aria-label="New PIN again"><button class="btn primary" type="submit">Change</button></div>
+        <p class="err" id="pinErr" role="alert"></p>
+      </form>
+      <div>
+        <h3 class="eyebrow">This phone</h3>
+        <button class="btn" type="button" data-act="forget">Forget the PIN on this phone</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- landing -->
+<div class="gate" id="gate" hidden>
+  <div class="gate-wrap">
+    <h1 class="gate-title">Youth Activities</h1>
+    <form class="panel gate-card" id="gateForm">
+      <h2 id="gateHead">Open your ward</h2>
+      <p id="gateText">Enter the ward code from your link, and your PIN.</p>
+      <input id="gateCode" class="codein" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Ward code" aria-label="Ward code">
+      <input id="gatePin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN" aria-label="PIN">
+      <button class="btn primary" type="submit">Open planner</button>
+      <p class="err" id="gateErr" role="alert"></p>
+      <button class="linkbtn" type="button" id="gateOther" hidden>Open a different ward</button>
+    </form>
+    <form class="panel gate-card" id="regForm">
+      <h2>Set up a new ward</h2>
+      <p>Choose a PIN of 4 to 10 digits. You'll get a link to share with your leaders and youth presidencies.</p>
+      <input id="regPin" type="password" inputmode="numeric" autocomplete="off" placeholder="New PIN" aria-label="New PIN">
+      <input id="regPin2" type="password" inputmode="numeric" autocomplete="off" placeholder="New PIN again" aria-label="New PIN again">
+      <button class="btn" type="submit">Set up ward</button>
+      <p class="err" id="regErr" role="alert"></p>
+    </form>
+    <div class="panel gate-card" id="regDone" hidden>
+      <h2>Your ward is set up</h2>
+      <p>Share this link and your PIN. Anyone with both can open the planner.</p>
+      <input id="regLink" class="linkout" readonly aria-label="Your ward link">
+      <button class="btn" type="button" id="regCopy">Copy link</button>
+      <button class="btn primary" type="button" id="regOpen">Open the planner</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+"use strict";
+const API_URL="https://script.google.com/macros/s/AKfycbwbA2bR6g7JAVCO1kFqw9joZgVkxZi6LrkogyLthFs0PvPUfoiVp_dow63pAYCfN3nYDQ/exec";
+const AREAS=[["spiritual","Spiritual"],["social","Social"],["physical","Physical"],["intellectual","Intellectual"]];
+const STATUSES=[["idea","Idea"],["planned","Planned"],["confirmed","Confirmed"],["done","Done"],["cancelled","Cancelled"]];
+const DEFAULT_GROUPS=["Combined youth","Young Women","Aaronic Priesthood","Deacons quorum","Teachers quorum","Priests quorum"];
+const DEFAULT_CHECKS=["Two adults confirmed","Bishopric informed","Permission forms","Transport","Food","Equipment","Budget approved"];
+// Starter ideas for the ideas bank (added only when someone asks for them).
+const STARTER_IDEAS=[
+  ["Temple baptisms trip",["spiritual"]],["Come, Follow Me games night",["spiritual","social"]],["Family history indexing night",["spiritual","intellectual"]],
+  ["Service at a food bank",["spiritual","social"]],["Youth-led devotional and testimony night",["spiritual"]],["Write letters to missionaries",["spiritual","social"]],
+  ["Board games and pizza night",["social"]],["Cook-off challenge",["social","intellectual"]],["Talent show",["social"]],["Bowling",["social","physical"]],
+  ["Pancake breakfast for the ward",["social"]],["Etiquette dinner",["social","intellectual"]],
+  ["Hike",["physical"]],["Sports tournament",["physical","social"]],["Bike ride",["physical"]],["Swimming",["physical"]],["Obstacle course",["physical","social"]],
+  ["First aid course",["intellectual","physical"]],["Budgeting basics",["intellectual"]],["CV and interview practice",["intellectual"]],
+  ["Basic car and bike maintenance",["intellectual"]],["Learn to cook a simple meal",["intellectual","physical"]],["Photography walk",["intellectual","physical"]],["Debate night",["intellectual","social"]]
+];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const state={activities:new Map(),ideas:new Map(),meta:{},ready:false,view:"calendar",group:"",when:"upcoming",areas:new Set(),period:"term",editing:null};
+let ward=null,pin=null,rev=0,pending=[],flushing=false,flushTimer=0,loading=false;
+const PIN_KEY="youth-activities-pin",WARD_KEY="youth-activities-ward";
+
+/* ---------- small helpers ---------- */
+function toast(msg){const t=$("#toast");t.textContent=msg;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,4200);}
+const newId=()=>"x"+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const pad=n=>String(n).padStart(2,"0");
+const todayIso=()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());};
+const addMonths=(iso,m)=>{const d=new Date(iso+"T12:00:00");d.setMonth(d.getMonth()+m);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());};
+const dateObj=iso=>new Date(iso+"T12:00:00");
+const groups=()=>(state.meta.groups&&state.meta.groups.length)?state.meta.groups:DEFAULT_GROUPS;
+const areaName=a=>(AREAS.find(x=>x[0]===a)||[,a])[1];
+const statusName=s=>(STATUSES.find(x=>x[0]===s)||[,s])[1];
+function copyText(txt,input){const fb=()=>{if(input){input.focus();input.select();}toast("Press Ctrl+C (or ⌘C) to copy.");};try{navigator.clipboard.writeText(txt).then(()=>toast("Link copied."),fb);}catch(e){fb();}}
+
+/* ---------- storage: the Youth Activities Apps Script ---------- */
+function getPin(){try{return localStorage.getItem(PIN_KEY+":"+ward);}catch(e){return null;}}
+function savePin(p){try{p?localStorage.setItem(PIN_KEY+":"+ward,p):localStorage.removeItem(PIN_KEY+":"+ward);}catch(e){}}
+const normCode=c=>String(c||"").toUpperCase().replace(/[^A-Z0-9]/g,"");
+function setWard(code){
+  ward=code||null;
+  try{ward?localStorage.setItem(WARD_KEY,ward):localStorage.removeItem(WARD_KEY);}catch(e){}
+  try{history.replaceState(null,"",location.pathname+location.search+(ward?"#"+ward:""));}catch(e){}
+}
+const wardLink=()=>location.origin+location.pathname+"#"+ward;
+async function api(fn,args){
+  let r;
+  try{r=await fetch(API_URL,{method:"POST",body:JSON.stringify({fn,args:args||[],ward,pin}),redirect:"follow"});}
+  catch(e){throw{code:"net",message:"No connection"};}
+  if(!r.ok)throw{code:"net",message:"Server error "+r.status};
+  let j;try{j=await r.json();}catch(e){throw{code:"net",message:"Unexpected reply"};}
+  if(!j.ok)throw{code:j.code||"error",message:j.error||"Something went wrong"};
+  return j.result;
+}
+const authError=err=>err&&(err.code==="pin"||err.code==="locked"||err.code==="noward");
+function apiFailed(err){
+  if(authError(err)){savePin(null);if(err.code==="noward")setWard(null);showGate(err.message);return;}
+  toast(err&&err.code==="net"?"Can't reach the planner. Check your connection; your last change may not have saved.":"A change didn't save: "+(err&&err.message||"unknown error"));
+  loadAll().catch(()=>{});
+}
+async function loadAll(){
+  loading=true;
+  try{
+    const all=await api("getAll");
+    if(pending.length||flushing)return;
+    state.activities=new Map(Object.entries(all.activities||{}));
+    state.ideas=new Map(Object.entries(all.ideas||{}));
+    state.meta=(all.meta&&all.meta.ward)||{};
+    rev=all.rev||0;state.ready=true;
+    render();
+  }finally{loading=false;}
+}
+function put(col,id,body){
+  const map=col==="activities"?state.activities:col==="ideas"?state.ideas:null;
+  if(map){if(body)map.set(id,body);else map.delete(id);}
+  pending.push({col,id,body:body||null});
+  clearTimeout(flushTimer);flushTimer=setTimeout(flush,250);
+  render();
+}
+async function flush(){
+  if(flushing||!pending.length)return;
+  flushing=true;
+  const byKey=new Map();pending.forEach(w=>byKey.set(w.col+"/"+w.id,w));pending=[];
+  try{rev=await api("batch",[[...byKey.values()]]);}
+  catch(err){flushing=false;apiFailed(err);return;}
+  flushing=false;
+  if(pending.length)flush();
+}
+async function poll(){
+  if(!pin||!ward||!state.ready||pending.length||flushing||loading||document.visibilityState!=="visible")return;
+  if(!$("#editModal").hidden)return;            // don't refresh under someone mid-edit
+  try{const r=await api("getRev");if(r!==rev)await loadAll();}
+  catch(err){if(authError(err))apiFailed(err);}
+}
+setInterval(poll,10000);
+document.addEventListener("visibilitychange",poll);
+
+/* ---------- render ---------- */
+function render(){
+  document.querySelectorAll(".tabs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.view===state.view)));
+  const s=$("#sync");s.className="sync"+(state.ready?" live":"");s.textContent=state.ready?"Shared with your ward":"Connecting…";
+  const m=$("#main");
+  if(!state.ready){m.innerHTML=`<div class="panel empty"><p>Loading…</p></div>`;return;}
+  m.innerHTML=state.view==="balance"?renderBalance():state.view==="ideas"?renderIdeas():renderCalendar();
+}
+function areaChips(sel,act){
+  return AREAS.map(([a,l])=>`<button class="chip" type="button" data-act="${act}" data-area="${a}" aria-pressed="${sel.has(a)}"><span class="dot ${a}"></span>${l}</button>`).join("");
+}
+function groupOptions(cur,allLabel){
+  return (allLabel?`<option value="">${allLabel}</option>`:"")+groups().map(g=>`<option${g===cur?" selected":""}>${esc(g)}</option>`).join("");
+}
+function sortedActivities(){return [...state.activities.entries()].sort((a,b)=>(a[1].date+(a[1].start||"")).localeCompare(b[1].date+(b[1].start||"")));}
+
+function renderCalendar(){
+  const today=todayIso();
+  let list=sortedActivities().filter(([,a])=>{
+    if(state.group&&a.group!==state.group)return false;
+    if(state.areas.size&&!(a.areas||[]).some(x=>state.areas.has(x)))return false;
+    if(state.when==="upcoming")return a.date>=today;
+    if(state.when==="past")return a.date<today;
+    return true;
+  });
+  if(state.when==="past")list.reverse();
+  let h=`<div class="filters">
+    <select id="fGroup" aria-label="Group">${groupOptions(state.group,"All groups")}</select>
+    <select id="fWhen" aria-label="When"><option value="upcoming"${state.when==="upcoming"?" selected":""}>Upcoming</option><option value="past"${state.when==="past"?" selected":""}>Past</option><option value="all"${state.when==="all"?" selected":""}>All dates</option></select>
+    ${areaChips(state.areas,"filter-area")}
+  </div>`;
+  if(!state.activities.size){
+    return h+`<div class="panel empty"><h2>No activities yet</h2><p>Add your first activity, or pick one from the ideas bank.</p><button class="btn primary" type="button" data-act="new">+ New activity</button> <button class="btn" type="button" data-act="view" data-view="ideas">Browse ideas</button></div>`;
+  }
+  if(!list.length)return h+`<div class="panel empty"><p>${state.when==="upcoming"?"Nothing coming up for this filter.":"Nothing matches this filter."}</p></div>`;
+  let month="";
+  for(const[id,a]of list){
+    const d=dateObj(a.date);
+    const mk=d.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+    if(mk!==month){if(month)h+=`</div></section>`;month=mk;h+=`<section class="month"><h2>${esc(mk)}</h2><div class="cards">`;}
+    const checks=a.checks||[];const doneN=checks.filter(c=>c.d).length;
+    const time=a.start?(a.start+(a.end?"–"+a.end:"")):"";
+    h+=`<button class="card${a.status==="cancelled"?" cancelled":""}" type="button" data-act="edit" data-id="${esc(id)}">
+      <div class="when"><div class="d">${d.getDate()}</div><div class="w">${esc(d.toLocaleDateString(undefined,{weekday:"short"}))}</div></div>
+      <div><p class="ctitle">${esc(a.title||"Untitled")}</p>
+        <div class="cmeta">${time?`<span>${esc(time)}</span>`:""}${a.location?`<span>${esc(a.location)}</span>`:""}${a.planning?`<span>Planning: ${esc(a.planning)}</span>`:""}</div>
+        <div class="ctags"><span class="tag">${esc(a.group||"")}</span>${(a.areas||[]).map(x=>`<span class="tag"><span class="dot ${x}" style="width:8px;height:8px;border-radius:50%;display:inline-block"></span>${areaName(x)}</span>`).join("")}</div>
+      </div>
+      <div class="cside"><span class="status st-${esc(a.status||"planned")}">${esc(statusName(a.status||"planned"))}</span>${checks.length?`<span class="prog${doneN<checks.length&&a.status!=="done"&&a.status!=="cancelled"?" todo":""}">${doneN}/${checks.length} ready</span>`:""}</div>
+    </button>`;
+  }
+  return h+`</div></section>`;
+}
+
+function periodRange(){
+  const t=todayIso();
+  if(state.period==="next")return[t,addMonths(t,3),"the next 3 months"];
+  if(state.period==="last")return[addMonths(t,-3),t,"the last 3 months"];
+  if(state.period==="year"){const y=new Date().getFullYear();return[y+"-01-01",y+"-12-31","this year"];}
+  return[addMonths(t,-2),addMonths(t,2),"the 2 months either side of today"];
+}
+function renderBalance(){
+  const[from,to,label]=periodRange();
+  const acts=[...state.activities.values()].filter(a=>a.date>=from&&a.date<=to&&a.status!=="cancelled"&&a.status!=="idea");
+  const rows=[...groups()].map(g=>({g,list:acts.filter(a=>a.group===g)}));
+  const count=list=>Object.fromEntries(AREAS.map(([a])=>[a,list.filter(x=>(x.areas||[]).includes(a)).length]));
+  const line=(name,list,cls)=>{
+    const c=count(list),tot=AREAS.reduce((s,[a])=>s+c[a],0);
+    const bar=tot?`<div class="bar" role="img" aria-label="${AREAS.map(([a,l])=>l+" "+c[a]).join(", ")}">${AREAS.filter(([a])=>c[a]).map(([a,l])=>`<span class="${a}" style="flex:${c[a]}" title="${l}: ${c[a]}"></span>`).join("")}</div>`:`<div class="bar"></div>`;
+    return `<tr class="${cls||""}"><td>${esc(name)}</td>${AREAS.map(([a])=>`<td class="${list.length&&!c[a]?"zero":""}">${c[a]}</td>`).join("")}<td>${list.length}</td><td style="width:34%">${bar}</td></tr>`;
+  };
+  const allC=count(acts);
+  const gapsAll=AREAS.filter(([a])=>!allC[a]).map(([,l])=>l);
+  const gapGroups=rows.filter(r=>r.list.length).map(r=>({g:r.g,miss:AREAS.filter(([a])=>!count(r.list)[a]).map(([,l])=>l)})).filter(x=>x.miss.length);
+  let h=`<section class="panel balance"><div class="balhead"><div><h2 style="font:700 19px var(--display)">Balance of the four areas</h2><p class="muted">Planned, confirmed and done activities in ${esc(label)}. An activity can count in more than one area.</p></div>
+    <select id="fPeriod" aria-label="Period"><option value="term"${state.period==="term"?" selected":""}>2 months either side</option><option value="next"${state.period==="next"?" selected":""}>Next 3 months</option><option value="last"${state.period==="last"?" selected":""}>Last 3 months</option><option value="year"${state.period==="year"?" selected":""}>This year</option></select></div>
+    <div class="balhead" style="padding-top:0"><div class="legend">${AREAS.map(([a,l])=>`<span><span class="dot ${a}" style="width:10px;height:10px;border-radius:50%;display:inline-block"></span>${l}</span>`).join("")}</div></div>
+    <table><thead><tr><th>Group</th>${AREAS.map(([a,l])=>`<th><span class="dot ${a}"></span>${l}</th>`).join("")}<th>Activities</th><th></th></tr></thead><tbody>
+    ${rows.map(r=>line(r.g,r.list)).join("")}${line("All groups",acts,"total")}</tbody></table>`;
+  if(acts.length&&(gapsAll.length||gapGroups.length)){
+    h+=`<div class="gaps">${gapsAll.length?`<div class="note">Nothing ${esc(gapsAll.join(" or "))} for anyone in this period.</div>`:""}${gapGroups.map(x=>`<div class="note">${esc(x.g)}: no ${esc(x.miss.join(", "))} activities yet.</div>`).join("")}</div>`;
+  }else if(!acts.length)h+=`<div class="gaps"><p class="muted">No planned activities in this period yet.</p></div>`;
+  return h+`</section>`;
+}
+
+function renderIdeas(){
+  const list=[...state.ideas.entries()].filter(([,i])=>!state.areas.size||(i.areas||[]).some(x=>state.areas.has(x))).sort((a,b)=>String(a[1].title).localeCompare(b[1].title));
+  let h=`<section class="panel addidea"><h2 style="font:700 19px var(--display)">Ideas bank</h2>
+    <form class="inrow" id="ideaForm"><input id="ideaTitle" maxlength="120" placeholder="Add an idea" autocomplete="off" aria-label="New idea"><button class="btn primary" type="submit">Add</button></form>
+    <div class="areas" id="ideaAreas">${areaChips(state.newIdeaAreas||new Set(),"idea-area")}</div>
+    <p class="muted">Tag the areas it covers, then press Add. Filter the list below with the same tags.</p></section>
+    <div class="filters">${areaChips(state.areas,"filter-area")}</div>`;
+  if(!state.ideas.size)return h+`<div class="panel empty"><h2>No ideas yet</h2><p>Start with ${STARTER_IDEAS.length} suggestions across the four areas, then add your own.</p><button class="btn primary" type="button" data-act="starter">Add starter ideas</button></div>`;
+  if(!list.length)return h+`<div class="panel empty"><p>No ideas with those tags.</p></div>`;
+  return h+`<div class="ideas">${list.map(([id,i])=>`<article class="panel idea"><h3>${esc(i.title)}</h3>${i.notes?`<p>${esc(i.notes)}</p>`:""}
+    <div class="ctags">${(i.areas||[]).map(x=>`<span class="tag"><span class="dot ${x}" style="width:8px;height:8px;border-radius:50%;display:inline-block"></span>${areaName(x)}</span>`).join("")}</div>
+    <div class="row"><button class="btn" type="button" data-act="plan-idea" data-id="${esc(id)}">Plan this</button><button class="mini" type="button" data-act="del-idea" data-id="${esc(id)}">Remove</button></div></article>`).join("")}</div>`;
+}
+
+/* ---------- activity editor ---------- */
+function openEditor(id,preset){
+  const a=id?{...state.activities.get(id)}:{title:"",date:"",start:"19:00",end:"20:30",group:groups()[0],areas:[],status:"planned",location:"",planning:"",adults:"",budget:"",notes:"",checks:DEFAULT_CHECKS.map(t=>({t,d:false})),...(preset||{})};
+  state.editing={id:id||null,a,areas:new Set(a.areas||[]),checks:(a.checks||[]).map(c=>({...c}))};
+  $("#editTitle").textContent=id?"Edit activity":"New activity";
+  drawEditor();
+  $("#editModal").hidden=false;
+  setTimeout(()=>{const t=$("#fTitle");if(t&&!id)t.focus();},50);
+}
+function drawEditor(){
+  const e=state.editing,a=e.a;
+  $("#editBody").innerHTML=`
+    <div class="field wide"><label for="fTitle">Activity</label><input id="fTitle" maxlength="120" required value="${esc(a.title)}" placeholder="e.g. Hike to the reservoir"></div>
+    <div class="field"><label for="fDate">Date</label><input id="fDate" type="date" required value="${esc(a.date)}"></div>
+    <div class="field"><span class="lbl">Time</span><div class="inrow"><input id="fStart" type="time" value="${esc(a.start||"")}" aria-label="Start time"><input id="fEnd" type="time" value="${esc(a.end||"")}" aria-label="End time"></div></div>
+    <div class="field"><label for="fGrp">Group</label><select id="fGrp">${groupOptions(a.group)}</select></div>
+    <div class="field"><label for="fStatus">Status</label><select id="fStatus">${STATUSES.map(([v,l])=>`<option value="${v}"${a.status===v?" selected":""}>${l}</option>`).join("")}</select></div>
+    <div class="field wide"><span class="lbl">Areas it covers</span><div class="areas">${areaChips(e.areas,"edit-area")}</div></div>
+    <div class="field"><label for="fLoc">Where</label><input id="fLoc" maxlength="120" value="${esc(a.location||"")}"></div>
+    <div class="field"><label for="fBudget">Budget (£)</label><input id="fBudget" inputmode="decimal" maxlength="12" value="${esc(a.budget||"")}"></div>
+    <div class="field"><label for="fPlan">Youth planning it</label><input id="fPlan" maxlength="120" value="${esc(a.planning||"")}" placeholder="e.g. Sam B, Lily P"><span class="hint">First names and initials only.</span></div>
+    <div class="field"><label for="fAdults">Adults responsible</label><input id="fAdults" maxlength="120" value="${esc(a.adults||"")}" placeholder="e.g. Jane W, Hayden D"><span class="hint">At least two adults. First names and initials only.</span></div>
+    <div class="field wide"><span class="lbl">Checklist</span><div class="checks">${e.checks.map((c,i)=>`<label><input type="checkbox" data-check="${i}"${c.d?" checked":""}>${esc(c.t)}<button class="x" type="button" data-act="del-check" data-i="${i}" aria-label="Remove ${esc(c.t)}">×</button></label>`).join("")}</div>
+      <div class="addcheck"><input id="newCheck" maxlength="60" placeholder="Add a checklist item" aria-label="New checklist item"><button class="btn" type="button" data-act="add-check">Add</button></div></div>
+    <div class="field wide"><label for="fNotes">Notes</label><textarea id="fNotes" maxlength="1500">${esc(a.notes||"")}</textarea></div>
+    <div class="formbtns">${e.id?`<button class="btn danger" type="button" data-act="del-activity">Delete</button>`:""}${e.id?`<button class="btn" type="button" data-act="save-idea">Save as idea</button>`:""}<button class="btn" type="button" data-act="close-edit">Cancel</button><button class="btn primary" type="submit">Save</button></div>`;
+}
+function readEditor(){
+  const e=state.editing;
+  Object.assign(e.a,{title:$("#fTitle").value.trim(),date:$("#fDate").value,start:$("#fStart").value,end:$("#fEnd").value,group:$("#fGrp").value,status:$("#fStatus").value,
+    location:$("#fLoc").value.trim(),budget:$("#fBudget").value.trim(),planning:$("#fPlan").value.trim(),adults:$("#fAdults").value.trim(),notes:$("#fNotes").value.trim()});
+  e.a.areas=[...e.areas];e.a.checks=e.checks;
+}
+function closeEditor(){$("#editModal").hidden=true;state.editing=null;}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const v=e.target.closest(".tabs button");
+  if(v){state.view=v.dataset.view;render();return;}
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const act=b.dataset.act;
+  switch(act){
+    case"view":state.view=b.dataset.view;render();return;
+    case"new":openEditor(null);return;
+    case"edit":openEditor(b.dataset.id);return;
+    case"close-edit":closeEditor();return;
+    case"filter-area":{const a=b.dataset.area;state.areas.has(a)?state.areas.delete(a):state.areas.add(a);render();return;}
+    case"edit-area":{readEditor();const s=state.editing.areas,a=b.dataset.area;s.has(a)?s.delete(a):s.add(a);drawEditor();return;}
+    case"idea-area":{const s=state.newIdeaAreas||(state.newIdeaAreas=new Set()),a=b.dataset.area;const t=$("#ideaTitle").value;s.has(a)?s.delete(a):s.add(a);render();$("#ideaTitle").value=t;return;}
+    case"add-check":{readEditor();const v=$("#newCheck").value.trim();if(v){state.editing.checks.push({t:v,d:false});drawEditor();setTimeout(()=>$("#newCheck").focus(),0);}return;}
+    case"del-check":{readEditor();state.editing.checks.splice(+b.dataset.i,1);drawEditor();return;}
+    case"del-activity":{
+      if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="Confirm delete";setTimeout(()=>{if(b.isConnected){b.classList.remove("armed");b.textContent="Delete";}},3500);return;}
+      put("activities",state.editing.id,null);closeEditor();toast("Activity deleted.");return;}
+    case"save-idea":{readEditor();const a=state.editing.a;put("ideas",newId(),{title:a.title,areas:a.areas,notes:a.notes||"",created:Date.now()});toast("Saved to the ideas bank.");return;}
+    case"plan-idea":{const i=state.ideas.get(b.dataset.id);if(i)openEditor(null,{title:i.title,areas:[...(i.areas||[])],notes:i.notes||"",status:"idea"});return;}
+    case"del-idea":{
+      if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="Confirm";setTimeout(()=>{if(b.isConnected){b.classList.remove("armed");b.textContent="Remove";}},3500);return;}
+      put("ideas",b.dataset.id,null);return;}
+    case"starter":STARTER_IDEAS.forEach(([title,areas])=>put("ideas",newId(),{title,areas,notes:"",created:Date.now()}));toast(STARTER_IDEAS.length+" ideas added.");return;
+    case"settings":$("#wardLink").value=wardLink();$("#groupsText").value=groups().join("\n");$("#setModal").hidden=false;return;
+    case"close-settings":$("#setModal").hidden=true;return;
+    case"copy-link":copyText(wardLink(),$("#wardLink"));return;
+    case"save-groups":{const g=[...new Set($("#groupsText").value.split(/\n/).map(s=>s.trim()).filter(Boolean))];if(!g.length){toast("Add at least one group.");return;}
+      state.meta={...state.meta,groups:g};put("meta","ward",{...state.meta});toast("Groups saved.");return;}
+    case"forget":savePin(null);location.reload();return;
+  }
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.id==="fGroup"){state.group=t.value;render();}
+  else if(t.id==="fWhen"){state.when=t.value;render();}
+  else if(t.id==="fPeriod"){state.period=t.value;render();}
+  else if(t.dataset&&t.dataset.check!==undefined&&state.editing){state.editing.checks[+t.dataset.check].d=t.checked;}
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){if(!$("#editModal").hidden)closeEditor();else if(!$("#setModal").hidden)$("#setModal").hidden=true;}
+  if(e.key==="Enter"&&e.target.id==="newCheck"){e.preventDefault();b=document.querySelector('[data-act="add-check"]');if(b)b.click();}
+});
+let b=null;
+$("#editForm").addEventListener("submit",e=>{
+  e.preventDefault();readEditor();
+  const a=state.editing.a;
+  if(!a.title){toast("Give the activity a name.");$("#fTitle").focus();return;}
+  if(!a.date){toast("Choose a date.");$("#fDate").focus();return;}
+  const id=state.editing.id||newId();
+  put("activities",id,{...a,updated:Date.now()});
+  closeEditor();toast("Saved.");
+});
+document.addEventListener("submit",e=>{
+  if(e.target.id==="ideaForm"){
+    e.preventDefault();const v=$("#ideaTitle").value.trim();if(!v)return;
+    put("ideas",newId(),{title:v,areas:[...(state.newIdeaAreas||[])],notes:"",created:Date.now()});
+    state.newIdeaAreas=new Set();render();setTimeout(()=>{const i=$("#ideaTitle");if(i)i.focus();},0);
+  }
+});
+
+/* ---------- landing, PIN and settings ---------- */
+const gateMsg=err=>err&&err.code==="net"?"Can't reach the planner. Check your connection and try again.":(err&&err.message)||"That didn't work.";
+function showGate(msg){
+  const known=!!ward;
+  $("#gate").hidden=false;$("#gateForm").hidden=false;$("#regDone").hidden=true;
+  $("#gateCode").hidden=known;$("#gateOther").hidden=!known;$("#regForm").hidden=known;
+  $("#gateHead").textContent=known?"Enter your ward PIN":"Open your ward";
+  $("#gateText").textContent=known?"Ward "+ward+". You only need to do this once on this phone.":"Enter the ward code from your link, and your PIN.";
+  $("#gateErr").textContent=msg||"";$("#gatePin").value="";
+  setTimeout(()=>(known?$("#gatePin"):$("#gateCode")).focus(),50);
+}
+$("#gateForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const v=$("#gatePin").value.trim();if(!v){$("#gateErr").textContent="Enter the PIN.";return;}
+  const btn=$("#gateForm button[type=submit]");btn.disabled=true;btn.textContent="Opening…";$("#gateErr").textContent="";
+  const known=ward;
+  try{
+    pin=v;const code=known||normCode($("#gateCode").value);
+    if(!code)throw{code:"noward",message:"Enter the ward code from your link."};
+    ward=code;await loadAll();setWard(code);savePin(v);$("#gate").hidden=true;
+  }catch(err){ward=known;$("#gateErr").textContent=gateMsg(err);}
+  finally{btn.disabled=false;btn.textContent="Open planner";}
+});
+$("#gateOther").addEventListener("click",()=>{setWard(null);showGate();});
+$("#regForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const a=$("#regPin").value.trim(),c=$("#regPin2").value.trim();
+  if(!/^\d{4,10}$/.test(a)){$("#regErr").textContent="Choose a PIN of 4 to 10 digits.";return;}
+  if(a!==c){$("#regErr").textContent="The two PINs don't match.";return;}
+  const btn=$("#regForm button");btn.disabled=true;btn.textContent="Setting up…";$("#regErr").textContent="";
+  try{pin=a;ward=null;const code=await api("register");setWard(code);savePin(a);
+    $("#gateForm").hidden=true;$("#regForm").hidden=true;$("#regDone").hidden=false;$("#regLink").value=wardLink();}
+  catch(err){$("#regErr").textContent=gateMsg(err);}
+  finally{btn.disabled=false;btn.textContent="Set up ward";}
+});
+$("#regCopy").addEventListener("click",()=>copyText(wardLink(),$("#regLink")));
+$("#regOpen").addEventListener("click",async()=>{try{await loadAll();$("#gate").hidden=true;}catch(err){showGate(gateMsg(err));}});
+$("#pinForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const a=$("#newPin").value.trim(),c=$("#newPin2").value.trim();
+  if(!/^\d{4,10}$/.test(a)){$("#pinErr").textContent="Choose a PIN of 4 to 10 digits.";return;}
+  if(a!==c){$("#pinErr").textContent="The two PINs don't match.";return;}
+  try{await api("changePin",[a]);pin=a;savePin(a);$("#newPin").value=$("#newPin2").value="";$("#pinErr").textContent="";toast("PIN changed. Tell everyone the new PIN.");}
+  catch(err){$("#pinErr").textContent=gateMsg(err);}
+});
+
+/* ---------- start ---------- */
+render();
+window.addEventListener("hashchange",()=>location.reload());
+(()=>{
+  let code=normCode(location.hash.slice(1));
+  if(!code){try{code=localStorage.getItem(WARD_KEY)||"";}catch(e){}}
+  if(code)setWard(code);
+  if(!ward){showGate();return;}
+  pin=getPin();
+  if(!pin){showGate();return;}
+  loadAll().catch(err=>{if(authError(err))apiFailed(err);else toast("Can't reach the planner. Check your connection, then reload.");});
+})();
+})();
+</script>
+</body>
+</html>
