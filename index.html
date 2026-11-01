@@ -133,6 +133,7 @@ main{max-width:980px;margin:0 auto;padding-top:16px;display:flex;flex-direction:
 .idea{padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .idea h3{font-size:15.5px}
 .idea p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.idea a{color:var(--accent);font-weight:600;font-size:13.5px}
 .idea .row{display:flex;gap:8px;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px}
 .addidea{padding:14px;display:flex;flex-direction:column;gap:10px}
 
@@ -283,6 +284,18 @@ const STARTER_IDEAS=[
   ["Hike",["physical"]],["Sports tournament",["physical","social"]],["Bike ride",["physical"]],["Swimming",["physical"]],["Obstacle course",["physical","social"]],
   ["First aid course",["intellectual","physical"]],["Budgeting basics",["intellectual"]],["CV and interview practice",["intellectual"]],
   ["Basic car and bike maintenance",["intellectual"]],["Learn to cook a simple meal",["intellectual","physical"]],["Photography walk",["intellectual","physical"]],["Debate night",["intellectual","social"]]
+];
+
+// Activity ideas published in For the Strength of Youth (FSY lessons, "Activity idea").
+// Short descriptions are our own; the link goes to the full article. Add new months here.
+const FSY_BASE="https://www.churchofjesuschrist.org/study/ftsoy/";
+const FSY_IDEAS=[
+  {issue:"December 2026",title:"An evening of service",areas:["social","spiritual","physical"],notes:"Small groups visit people who need help with simple jobs or a treat, then come back together to talk about it.",url:FSY_BASE+"2026/12/fsy-lessons/05a-activity-idea?lang=eng"},
+  {issue:"December 2026",title:"Compliment circle",areas:["social","spiritual"],notes:"Papers go round the circle and everyone writes a sincere compliment for each person.",url:FSY_BASE+"2026/12/fsy-lessons/05b-activity-idea?lang=eng"},
+  {issue:"November 2026",title:"Three truths and a lie",areas:["social","intellectual","spiritual"],notes:"Share facts about yourselves, match scripture halves, then find truths in conference talks to practise spotting error.",url:FSY_BASE+"2026/11/fsy-lessons/05a-activity-idea?lang=eng"},
+  {issue:"November 2026",title:"Freed by truth",areas:["spiritual","social","physical"],notes:"A blindfolded, tied-up volunteer is freed step by step as the group completes faith challenges.",url:FSY_BASE+"2026/11/fsy-lessons/05b-activity-idea?lang=eng"},
+  {issue:"October 2026",title:"Healthy cook-off",areas:["physical","spiritual","social"],notes:"Teams cook a healthy meal or snack on a budget, talk about nutrition and waste, then share or donate the food.",url:FSY_BASE+"2026/10/fsy-lessons/05a-activity-idea?lang=eng"},
+  {issue:"October 2026",title:"Use your five senses",areas:["physical","spiritual","intellectual"],notes:"A blindfold guessing game using touch, smell, taste and sound, leading into gratitude for our bodies.",url:FSY_BASE+"2026/10/fsy-lessons/05b-activity-idea?lang=eng"}
 ];
 
 const $=s=>document.querySelector(s);
@@ -450,6 +463,15 @@ function renderBalance(){
   return h+`</section>`;
 }
 
+function fsySection(){
+  const have=new Set([...state.ideas.values()].map(i=>i.url).filter(Boolean));
+  const list=FSY_IDEAS.map((i,n)=>[i,n]).filter(([i])=>!state.areas.size||i.areas.some(x=>state.areas.has(x)));
+  if(!list.length)return "";
+  return `<section><h2 style="font:700 19px var(--display);margin:8px 0 4px">From For the Strength of Youth</h2><p class="muted" style="margin-bottom:10px">Activity ideas from the magazine's monthly lessons. Each links to the full article.</p>
+    <div class="ideas">${list.map(([i,n])=>`<article class="panel idea"><span class="eyebrow">${esc(i.issue)}</span><h3>${esc(i.title)}</h3><p>${esc(i.notes)}</p><p><a href="${esc(i.url)}" target="_blank" rel="noopener">Read the full idea</a></p>
+      <div class="ctags">${i.areas.map(x=>`<span class="tag"><span class="dot ${x}" style="width:8px;height:8px;border-radius:50%;display:inline-block"></span>${areaName(x)}</span>`).join("")}</div>
+      <div class="row"><button class="btn" type="button" data-act="plan-fsy" data-i="${n}">Plan this</button>${have.has(i.url)?`<span class="muted">In your bank</span>`:`<button class="mini" type="button" data-act="add-fsy" data-i="${n}">Add to bank</button>`}</div></article>`).join("")}</div></section>`;
+}
 function renderIdeas(){
   const list=[...state.ideas.entries()].filter(([,i])=>!state.areas.size||(i.areas||[]).some(x=>state.areas.has(x))).sort((a,b)=>String(a[1].title).localeCompare(b[1].title));
   let h=`<section class="panel addidea"><h2 style="font:700 19px var(--display)">Ideas bank</h2>
@@ -457,11 +479,11 @@ function renderIdeas(){
     <div class="areas" id="ideaAreas">${areaChips(state.newIdeaAreas||new Set(),"idea-area")}</div>
     <p class="muted">Tag the areas it covers, then press Add. Filter the list below with the same tags.</p></section>
     <div class="filters">${areaChips(state.areas,"filter-area")}</div>`;
-  if(!state.ideas.size)return h+`<div class="panel empty"><h2>No ideas yet</h2><p>Start with ${STARTER_IDEAS.length} suggestions across the four areas, then add your own.</p><button class="btn primary" type="button" data-act="starter">Add starter ideas</button></div>`;
-  if(!list.length)return h+`<div class="panel empty"><p>No ideas with those tags.</p></div>`;
-  return h+`<div class="ideas">${list.map(([id,i])=>`<article class="panel idea"><h3>${esc(i.title)}</h3>${i.notes?`<p>${esc(i.notes)}</p>`:""}
+  if(!state.ideas.size)return h+fsySection()+`<div class="panel empty"><h2>No ideas yet</h2><p>Start with ${STARTER_IDEAS.length} suggestions across the four areas, then add your own.</p><button class="btn primary" type="button" data-act="starter">Add starter ideas</button></div>`;
+  if(!list.length)return h+`<div class="panel empty"><p>No ideas with those tags.</p></div>`+fsySection();
+  return h+`<div class="ideas">${list.map(([id,i])=>`<article class="panel idea"><h3>${esc(i.title)}</h3>${i.notes?`<p>${esc(i.notes)}</p>`:""}${i.url?`<p><a href="${esc(i.url)}" target="_blank" rel="noopener">Read the full idea</a></p>`:""}
     <div class="ctags">${(i.areas||[]).map(x=>`<span class="tag"><span class="dot ${x}" style="width:8px;height:8px;border-radius:50%;display:inline-block"></span>${areaName(x)}</span>`).join("")}</div>
-    <div class="row"><button class="btn" type="button" data-act="plan-idea" data-id="${esc(id)}">Plan this</button><button class="mini" type="button" data-act="del-idea" data-id="${esc(id)}">Remove</button></div></article>`).join("")}</div>`;
+    <div class="row"><button class="btn" type="button" data-act="plan-idea" data-id="${esc(id)}">Plan this</button><button class="mini" type="button" data-act="del-idea" data-id="${esc(id)}">Remove</button></div></article>`).join("")}</div>`+fsySection();
 }
 
 /* ---------- activity editor ---------- */
@@ -519,7 +541,9 @@ document.addEventListener("click",e=>{
       if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="Confirm delete";setTimeout(()=>{if(b.isConnected){b.classList.remove("armed");b.textContent="Delete";}},3500);return;}
       put("activities",state.editing.id,null);closeEditor();toast("Activity deleted.");return;}
     case"save-idea":{readEditor();const a=state.editing.a;put("ideas",newId(),{title:a.title,areas:a.areas,notes:a.notes||"",created:Date.now()});toast("Saved to the ideas bank.");return;}
-    case"plan-idea":{const i=state.ideas.get(b.dataset.id);if(i)openEditor(null,{title:i.title,areas:[...(i.areas||[])],notes:i.notes||"",status:"idea"});return;}
+    case"plan-idea":{const i=state.ideas.get(b.dataset.id);if(i)openEditor(null,{title:i.title,areas:[...(i.areas||[])],notes:(i.notes||"")+(i.url?"\n"+i.url:""),status:"idea"});return;}
+    case"plan-fsy":{const i=FSY_IDEAS[+b.dataset.i];if(i)openEditor(null,{title:i.title,areas:[...i.areas],notes:i.notes+"\n"+i.url,status:"idea"});return;}
+    case"add-fsy":{const i=FSY_IDEAS[+b.dataset.i];if(i){put("ideas",newId(),{title:i.title,areas:[...i.areas],notes:i.notes,url:i.url,created:Date.now()});toast("Added to your ideas bank.");}return;}
     case"del-idea":{
       if(!b.classList.contains("armed")){b.classList.add("armed");b.textContent="Confirm";setTimeout(()=>{if(b.isConnected){b.classList.remove("armed");b.textContent="Remove";}},3500);return;}
       put("ideas",b.dataset.id,null);return;}
